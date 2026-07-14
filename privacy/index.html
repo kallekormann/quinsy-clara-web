@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Privacy Policy for Quinsy Clara, a monday.com data formatting app.">
+  <title>Privacy Policy | Clara</title>
+  <link rel="stylesheet" href="/shared/css/fonts.css">
+  <link rel="stylesheet" href="/shared/css/base.css">
+  <link rel="stylesheet" href="/shared/css/components.css">
+  <link rel="stylesheet" href="/shared/css/wordmark.css">
+  <link rel="stylesheet" href="/css/tokens.css">
+</head>
+<body>
+  <header class="site-header" role="banner">
+    <div class="container site-header__inner">
+      <a href="/" class="wordmark wordmark--clara" aria-label="Clara home">
+        <span class="wordmark__serif">Quinsy</span>
+        <span class="wordmark__sans">Clara</span>
+      </a>
+      <div class="site-header__cta">
+        <a href="/" class="btn btn--secondary">Back to home</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="legal" role="main">
+    <p class="draft-notice">This policy is a draft pending legal review.</p>
+
+    <h1>Privacy Policy</h1>
+    <p><strong>Last updated:</strong> July 8, 2026</p>
+    <p>This Privacy Policy describes how Quinsy UG (haftungsbeschränkt) ("we", "us") processes data when you use Clara, our monday.com automation app.</p>
+
+    <h2>Data controller</h2>
+    <p>Quinsy UG (haftungsbeschränkt)<br>
+    Schönhausenstraße 41<br>
+    28355 Bremen<br>
+    Germany<br>
+    HRB 42890</p>
+    <p>Contact: <a href="mailto:privacy@quinsy.app">privacy@quinsy.app</a></p>
+
+    <h2>What we process</h2>
+    <p>When your monday.com automation runs, we receive and process the following data sent by monday:</p>
+    <ul>
+      <li>Board ID (<code>boardId</code>)</li>
+      <li>Item ID (<code>itemId</code>)</li>
+      <li>Column ID (<code>columnId</code>)</li>
+      <li>Cell content (<code>columnValue</code>)</li>
+      <li>Selected format type (<code>formatType</code>)</li>
+    </ul>
+    <p>We use short-lived monday API tokens provided during each automation run to read the current cell value and write back the formatted result.</p>
+
+    <h2>What we do not do</h2>
+    <ul>
+      <li>We do not store cell content persistently.</li>
+      <li>We do not sell your data.</li>
+      <li>We do not use your data for advertising.</li>
+      <li>We do not build user profiles from board data.</li>
+    </ul>
+
+    <h2>Legal basis</h2>
+    <p>Processing is based on the performance of the automation you configured (contract) and our legitimate interest in providing the formatting service you requested.</p>
+
+    <h2>Sub-processors</h2>
+    <ul>
+      <li><strong>Vercel</strong> (hosting): our API and website run on Vercel infrastructure in the EU/US depending on deployment region.</li>
+      <li><strong>monday.com</strong> (platform): sends automation payloads and provides API access for read/write operations.</li>
+    </ul>
+
+    <h2>Retention</h2>
+    <p>Cell data is processed in real time during each automation run and is not retained in our application database. Server logs on Vercel may temporarily contain request metadata. Log retention follows Vercel's default policies (typically up to 30 days for runtime logs).</p>
+
+    <h2>Usage and billing</h2>
+    <p>Clara tracks how many automation transformations you use through monday.com's app subscription API. We do not maintain a separate usage database or store cell content for metering. Usage limits depend on your monday marketplace plan. Payment and invoicing are handled by monday.com.</p>
+
+    <h2>Your rights</h2>
+    <p>Under GDPR, you may have the right to access, rectify, erase, restrict, or object to processing of your personal data, and to data portability where applicable. To exercise these rights, contact us at <a href="mailto:privacy@quinsy.app">privacy@quinsy.app</a>.</p>
+    <p>You may also lodge a complaint with your local data protection authority.</p>
+
+    <h2>Changes</h2>
+    <p>We may update this policy from time to time. The "Last updated" date at the top will reflect any changes.</p>
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="container site-footer__inner">
+      <nav class="site-footer__links" aria-label="Footer navigation">
+        <a href="/privacy/" class="site-footer__link" aria-current="page">Privacy</a>
+        <a href="/terms/" class="site-footer__link">Terms</a>
+        <a href="/imprint/" class="site-footer__link">Imprint</a>
+      </nav>
+      <div class="site-footer__divider" aria-hidden="true"></div>
+      <p class="site-footer__attribution">
+        A product by
+        <a href="https://quinsy.app" class="wordmark wordmark--footer" target="_blank" rel="noopener noreferrer">
+          <span class="wordmark__serif">Quinsy</span>
+        </a>
+        <span aria-hidden="true">·</span>
+        © 2026 Quinsy
+      </p>
+    </div>
+  </footer>
+</body>
+</html>

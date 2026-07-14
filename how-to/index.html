@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quinsy Clara — Setup Guide</title>
+  <script src="https://cdn.jsdelivr.net/npm/monday-sdk-js/dist/main.js"></script>
+  <style>
+    :root {
+      --coral: #e85d4c;
+      --ink: #1a1a1a;
+      --muted: #5c5c5c;
+      --bg: #faf9f7;
+      --card: #ffffff;
+      --border: #e8e4df;
+      --radius: 12px;
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font);
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--ink);
+      background: var(--bg);
+      padding: 24px 20px 40px;
+    }
+
+    .wrap {
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 28px;
+    }
+
+    .step {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      margin-bottom: 14px;
+    }
+
+    .step-num {
+      display: inline-block;
+      background: var(--coral);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 600;
+      width: 24px;
+      height: 24px;
+      line-height: 24px;
+      text-align: center;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+
+    .step h2 {
+      display: inline;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .step p {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .step ul {
+      margin-top: 10px;
+      padding-left: 20px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .step li { margin-bottom: 4px; }
+
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 13px;
+      background: #f3f0ec;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .compat {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      margin-top: 6px;
+    }
+
+    .compat h2 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .compat table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .compat th,
+    .compat td {
+      text-align: left;
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .compat th {
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .compat td { color: var(--muted); }
+
+    .support {
+      margin-top: 24px;
+      font-size: 14px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .support a {
+      color: var(--coral);
+      text-decoration: none;
+    }
+
+    .support a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Quinsy Clara — Setup Guide</h1>
+    <p class="subtitle">Auto-format monday.com column data on every cell change.</p>
+
+    <div class="step">
+      <span class="step-num">1</span>
+      <h2>Install from the marketplace</h2>
+      <p>
+        Install <strong>Quinsy Clara</strong> from the monday.com marketplace.
+        Your admin can add it from the Apps section or via the install link in the Developer Center.
+      </p>
+    </div>
+
+    <div class="step">
+      <span class="step-num">2</span>
+      <h2>Add the automation template</h2>
+      <p>
+        Open a board → <strong>Automate</strong> → search for <strong>Quinsy Clara</strong>
+        → add the template: <em>When column changes → format column as format</em>.
+      </p>
+    </div>
+
+    <div class="step">
+      <span class="step-num">3</span>
+      <h2>Pick column and format</h2>
+      <p>
+        Select the column to watch and choose a formatter from the dropdown
+        (e.g. Text · Title Case, Number · EU, Time · HH:MM).
+      </p>
+    </div>
+
+    <div class="step">
+      <span class="step-num">4</span>
+      <h2>Map Column Value (new builder accounts)</h2>
+      <p>
+        On newer automation builder accounts, map the trigger output to the action input:
+      </p>
+      <ul>
+        <li><code>boardId</code> → <code>boardId</code></li>
+        <li><code>itemId</code> → <code>itemId</code></li>
+        <li><code>columnId</code> → <code>columnId</code></li>
+        <li><code>currentValue</code> → <code>columnValue</code></li>
+      </ul>
+    </div>
+
+    <div class="step">
+      <span class="step-num">5</span>
+      <h2>Test it</h2>
+      <p>
+        Edit a cell in the watched column. Clara reads the value, applies the format,
+        and writes the result back automatically.
+      </p>
+    </div>
+
+    <div class="compat">
+      <h2>Column compatibility</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Column type</th>
+            <th>Support</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Text / Long text</td>
+            <td>Full support — all 28 formatters</td>
+          </tr>
+          <tr>
+            <td>Numbers</td>
+            <td>Numeric output only (symbols like %, € stripped)</td>
+          </tr>
+          <tr>
+            <td>Status, Date, People, etc.</td>
+            <td>Not supported</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="support">
+      Questions? Email <a href="mailto:support@quinsy.app">support@quinsy.app</a>
+    </p>
+  </div>
+
+  <script>
+    (function () {
+      if (typeof window.mondaySdk !== 'function') {
+        return;
+      }
+
+      var monday = window.mondaySdk();
+      monday.execute('valueCreatedForUser').catch(function () {
+        // Expected when page is opened outside monday iframe
+      });
+    })();
+  </script>
+</body>
+</html>

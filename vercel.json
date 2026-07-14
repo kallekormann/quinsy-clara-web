@@ -1,0 +1,15 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": true,
+  "headers": [
+    {
+      "source": "/how-to/(.*)",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "frame-ancestors https://*.monday.com https://monday.com"
+        }
+      ]
+    }
+  ]
+}

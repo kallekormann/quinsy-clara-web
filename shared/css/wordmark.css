@@ -1,0 +1,60 @@
+/* wordmark.css - Serif Quinsy + Inter Clara (theme-agnostic) */
+
+.wordmark {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0;
+  text-decoration: none;
+  color: inherit;
+  white-space: nowrap;
+}
+
+.wordmark__serif {
+  font-family: var(--font-serif);
+  font-size: var(--text-h2);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.wordmark__sans {
+  font-family: 'Inter', var(--font-sans);
+  font-size: var(--text-h2);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  margin-left: 0.14em;
+}
+
+.wordmark--clara .wordmark__serif {
+  font-weight: 400;
+}
+
+.wordmark--clara .wordmark__sans {
+  font-weight: 600;
+  margin-left: 0.1em;
+}
+
+.wordmark--footer .wordmark__serif {
+  font-size: var(--text-sm);
+  font-weight: 400;
+}
+
+.wordmark--footer .wordmark__sans {
+  font-size: var(--text-sm);
+  margin-left: 0.1em;
+}
+
+.wordmark--clara .wordmark__serif,
+.wordmark--clara .wordmark__sans {
+  font-size: var(--text-h2);
+}
+
+.wordmark--quinsy .wordmark__sans {
+  display: none;
+}
+
+.wordmark--small .wordmark__serif,
+.wordmark--small .wordmark__sans {
+  font-size: var(--text-body);
+}

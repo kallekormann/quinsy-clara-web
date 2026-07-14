@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Quinsy Clara formats monday.com column data automatically: text, numbers, phones, emails, IBANs, postal codes, and time. 28 formatters, zero code.">
+  <title>Clara | Clean data. Automatically.</title>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "Quinsy Clara",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web",
+        "description": "Quinsy Clara is a monday.com automation app that formats and sanitizes column data automatically when a cell changes.",
+        "offers": {
+          "@type": "AggregateOffer",
+          "lowPrice": "0",
+          "highPrice": "25",
+          "priceCurrency": "USD",
+          "offerCount": "4",
+          "availability": "https://schema.org/PreOrder"
+        },
+        "creator": {
+          "@type": "Organization",
+          "name": "Quinsy",
+          "url": "https://quinsy.app"
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is Quinsy Clara?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Quinsy Clara is a monday.com automation app that formats and sanitizes column data the moment a cell changes. It runs as a workflow action inside your monday.com board, so values are cleaned without manual editing or scripts."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How does Clara work with monday.com automations?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "You create an automation where a column change triggers the Quinsy Clara action and you pick a format from the dropdown. monday.com sends the board ID, item ID, column ID, and cell value to Clara, which applies the transformer and writes the result back to the same column."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What types of data can Clara format?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Clara formats text, numbers, phone numbers, email addresses, IBANs, postal codes, and time or duration values. Each category handles real-world input variations such as mixed separators, local phone formats, and timesheet notation."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How many format types does Clara include?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Quinsy Clara includes 28 formatters across 6 categories: Text, Numbers, Time and duration, Contact, Finance, and Address. You choose one format per automation recipe."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Which monday.com column types does Clara support?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Text columns support all 28 formatters and are the recommended choice. Numbers columns accept numeric output only, with suffixes like d, min, or % stripped. Status, Date, People, and other column types are not supported because monday.com does not allow write-back via automation."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Should I use a Text or Numbers column with Clara?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Use a Text column when the formatted result includes labels, units, or symbols such as 1h 30m, $1,234.56, or +49 170 1234567. Use a Numbers column only when you need a raw decimal value without suffixes, for example 1.5 decimal hours on a hours column."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can Clara fix mixed US and EU number formats?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Clara can rewrite numbers between US (1,234.56), EU (1.234,56), CH (1'234.56), and FR (1 234,56) formats. When both period and comma appear, the last separator is treated as the decimal mark."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How does Clara handle timesheet values like 0.45 or ¾?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Clara parses timesheet notation where the fractional part represents minutes, so 0.45 means 45 minutes and outputs formats like 00:45. It also understands fraction characters such as ¾ and plain minute values like 90."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What is the difference between 1.5 and 1.30 in Clara time parsing?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The value 1.5 is read as 1.5 decimal hours, while 1.30 is read as 1 hour and 30 minutes in timesheet notation. Pick the output format that matches how your team records time, such as HH:MM or Decimal hours."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can Clara format phone numbers internationally?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Phone numbers that include a + prefix or 00 international prefix are validated and formatted to E.164 with a spaced country code, for example +49 170 1234567. Clara uses libphonenumber for global phone validation."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does Clara add country codes to local phone numbers?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. Clara does not guess a country code for local numbers without a + or 00 prefix. It only removes spaces and dashes, so 0170 1234567 becomes 01701234567 without adding +49."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can Clara normalize email addresses?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. The Contact · Email and Domain formatter lowercases addresses, trims whitespace, and cleans the domain portion. For example, \" Max@EXAMPLE.COM \" becomes max@example.com before CRM sync or exports."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does Clara format IBANs and postal codes?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. Clara groups IBAN strings into standard blocks, for example DE89 3704 0044 0532 0130 00. The Address · Postal and Country formatter normalizes postal codes for US, UK, DE, FR, ES, and IT formats."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What happens if Clara cannot parse a value?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "The original cell value is left unchanged. The automation completes successfully and returns the unmodified text, so a bad entry does not break your workflow or clear the cell."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can Clara cause infinite automation loops?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. Clara includes a loop guard that skips the write-back when the formatted output is identical to the current value. This prevents a column change from re-triggering the same automation endlessly."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does Clara store my monday.com board data?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Clara processes cell values in-flight during each automation run and does not build a persistent copy of your board data. For details on retention and processing, see our Privacy Policy."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do I need to write code to use Clara?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "No. Clara is configured entirely inside the monday.com automation builder with a format dropdown. You map trigger fields to action inputs using the provided automation template and pick the formatter you need."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I install Clara on monday.com?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Install Quinsy Clara from the monday.com marketplace and add it as an action in your automation recipes. The marketplace listing is currently in review; check monday.com for availability."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Is Quinsy Clara free?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Clara has a free plan with 500 transformations per month. Paid plans (Basic, Pro, and Team) offer higher monthly limits starting at $5/month. All plans include every formatter. Billing is handled through the monday.com marketplace. See clara.quinsy.app/pricing for details."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Who makes Quinsy Clara?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Quinsy Clara is made by Quinsy, a productivity suite of focused apps for modern work tools. Clara is the first Quinsy product and is built specifically for monday.com teams."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+  <link rel="stylesheet" href="/shared/css/fonts.css">
+  <link rel="stylesheet" href="/shared/css/base.css">
+  <link rel="stylesheet" href="/shared/css/components.css">
+  <link rel="stylesheet" href="/shared/css/wordmark.css">
+  <link rel="stylesheet" href="/css/tokens.css">
+</head>
+<body>
+  <header class="site-header" role="banner">
+    <div class="container site-header__inner">
+      <a href="/" class="wordmark wordmark--clara" aria-label="Clara home">
+        <span class="wordmark__serif">Quinsy</span>
+        <span class="wordmark__sans">Clara</span>
+      </a>
+      <nav class="site-header__nav" aria-label="Main navigation">
+        <a href="#features" class="link--muted">Features</a>
+        <a href="#compatibility" class="link--muted">Compatibility</a>
+        <a href="#pricing" class="link--muted">Pricing</a>
+        <a href="#faq" class="link--muted">FAQ</a>
+      </nav>
+      <div class="site-header__cta">
+        <a href="#install" class="btn btn--primary clara-install">Install on monday</a>
+      </div>
+    </div>
+  </header>
+
+  <main role="main">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="container hero__container">
+        <span class="badge hero__badge">monday.com app</span>
+        <h1 id="hero-title" class="hero__title">Clean data. Automatically.</h1>
+        <p class="hero__subtitle">Clara formats and sanitises monday.com column values the moment they change. Text, numbers, phones, emails, IBANs, postal codes, and time. 28 formats, zero manual work.</p>
+
+        <div class="hero__demo automation-demo-stage">
+          <div class="automation-demo" data-automation-demo aria-label="Animated preview of monday automation setup">
+            <div class="automation-demo__dropdown" data-demo-dropdown hidden>
+              <div class="automation-demo__search">
+                <svg class="automation-demo__search-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.5"/>
+                  <path d="M11 11l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+                Search
+              </div>
+              <ul class="automation-demo__options" data-demo-options role="listbox"></ul>
+            </div>
+            <p class="automation-demo__line automation-demo__trigger" data-demo-trigger>
+              When <span class="automation-demo__token" data-demo-column>ARR</span> changes
+            </p>
+            <span class="automation-demo__line automation-demo__arrow" data-demo-arrow aria-hidden="true">↓</span>
+            <p class="automation-demo__line automation-demo__action" data-demo-action>
+              Then <span data-demo-verb>format</span>
+              <span class="automation-demo__token" data-demo-column-action>ARR</span>
+              as
+              <span class="automation-demo__format-label" data-demo-format aria-live="polite">Format</span>
+            </p>
+            <button type="button" class="automation-demo__line automation-demo__button" data-demo-button disabled>Create automation</button>
+          </div>
+        </div>
+
+        <p class="hero__setup-lead">Set up Clara like any monday automation.<br>Pick a column, choose a format, done.</p>
+        <div class="hero__ctas" id="install">
+          <a href="#install" class="btn btn--primary clara-install">Install on monday</a>
+          <a href="#features" class="btn btn--secondary">See features</a>
+        </div>
+        <p class="hero__note">Marketplace listing coming soon. (in review)</p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="problem-title">
+      <div class="container">
+        <header>
+          <h2 id="problem-title" class="section__title section__title--large">Inconsistent data eats your time.</h2>
+          <p class="section__lead">Column values arrive in messy formats. Clara normalises them on every change.</p>
+        </header>
+        <div class="data-stories">
+          <article class="data-story data-story--text">
+            <div class="data-story__copy">
+              <p class="data-story__category">Text</p>
+              <h3 class="data-story__title">Extra spaces and wrong casing</h3>
+              <p class="data-story__problem">People paste values with leading spaces, shout in ALL CAPS, or mix casing within the same column. Reports and filters break because <code>hello</code> and <code>Hello</code> are treated as different values.</p>
+              <p class="data-story__solution">Clara trims whitespace and applies Title Case, UPPERCASE, lowercase, or Trim Spaces the moment a cell changes.</p>
+            </div>
+            <div class="data-story__examples">
+              <div class="example-pair">
+                <div class="example-card example-card--before">
+                  <span class="example-card__label">Before</span>
+                  <code class="example-card__value">  hello world  </code>
+                </div>
+                <div class="example-card example-card--after">
+                  <span class="example-card__label">After</span>
+                  <code class="example-card__value">Hello World</code>
+                </div>
+              </div>
+              <div class="example-pair">
+                <div class="example-card example-card--before">
+                  <span class="example-card__label">Before</span>
+                  <code class="example-card__value">MAX@EMAIL.COM</code>
+                </div>
+                <div class="example-card example-card--after">
+                  <span class="example-card__label">After</span>
+                  <code class="example-card__value">max@email.com</code>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="data-story data-story--numbers data-story--reverse">
+            <div class="data-story__copy">
+              <p class="data-story__category">Numbers</p>
+              <h3 class="data-story__title">Mixed decimal and thousand separators</h3>
+              <p class="data-story__problem">EU teams write <code>1.234,56</code>. US teams write <code>1,234.56</code>. The same board ends up with both, which makes sorting and rollups unreliable.</p>
+              <p class="data-story__solution">Pick US, EU, CH, or FR number formats, with currency, percentage, and compact notation also available. Clara rewrites the cell to your locale on change.</p>
+            </div>
+            <div class="data-story__examples">
+              <div class="example-pair">
+                <div class="example-card example-card--before">
+                  <span class="example-card__label">Before</span>
+                  <code class="example-card__value">1234567,89</code>
+                </div>
+                <div class="example-card example-card--after">
+                  <span class="example-card__label">After</span>
+                  <code class="example-card__value">1,234,567.89</code>
+                </div>
+              </div>
+              <div class="example-pair">
+                <div class="example-card example-card--before">
+                  <span class="example-card__label">Before</span>
+                  <code class="example-card__value">1234567.89</code>
+                </div>
+                <div class="example-card example-card--after">
+                  <span class="example-card__label">After</span>
+                  <code class="example-card__value">1.234.567,89</code>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="data-story data-story--phones">
+            <div class="data-story__copy">
+              <p class="data-story__category">Phones</p>
+              <h3 class="data-story__title">Local formats without country codes</h3>
+              <p class="data-story__problem">Numbers arrive as <code>0049…</code>, <code>(555)…</code>, or bare digits. Dialling and CRM sync need a consistent international prefix.</p>
+              <p class="data-story__solution">When a number includes <code>+</code> or <code>00</code>, Clara formats to E.164 with a spaced prefix. Numbers without a prefix are cleaned but not country-guessed. Email formatting is also available in the Contact category.</p>
+            </div>
+            <div class="data-story__examples">
+              <div class="example-pair">
+                <div class="example-card example-card--before">
+                  <span class="example-card__label">Before</span>
+                  <code class="example-card__value">0049 170 1234567</code>
+                </div>
+                <div class="example-card example-card--after">
+                  <span class="example-card__label">After</span>
+                  <code class="example-card__value">+49 170 1234567</code>
+                </div>
+              </div>
+              <div class="example-pair">
+                <div class="example-card example-card--before">
+                  <span class="example-card__label">Before</span>
+                  <code class="example-card__value">+1 (555) 123-4567</code>
+                </div>
+                <div class="example-card example-card--after">
+                  <span class="example-card__label">After</span>
+                  <code class="example-card__value">+1 555 123 4567</code>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="data-story data-story--time data-story--reverse">
+            <div class="data-story__copy">
+              <p class="data-story__category">Time</p>
+              <h3 class="data-story__title">Timesheet notation that means different things</h3>
+              <p class="data-story__problem">One person enters <code>0.45</code> meaning 27 minutes. Another enters <code>90</code> meaning 90 minutes. Fractions like <code>¾</code> add another layer of ambiguity.</p>
+              <p class="data-story__solution">Clara parses decimal hours, total minutes, and fraction notation, then writes back HH:MM, decimal hours, days, weeks, and more depending on your format choice.</p>
+            </div>
+            <div class="data-story__examples">
+              <div class="example-pair">
+                <div class="example-card example-card--before">
+                  <span class="example-card__label">Before</span>
+                  <code class="example-card__value">0.45</code>
+                </div>
+                <div class="example-card example-card--after">
+                  <span class="example-card__label">After</span>
+                  <code class="example-card__value">00:27</code>
+                </div>
+              </div>
+              <div class="example-pair">
+                <div class="example-card example-card--before">
+                  <span class="example-card__label">Before</span>
+                  <code class="example-card__value">90</code>
+                </div>
+                <div class="example-card example-card--after">
+                  <span class="example-card__label">After</span>
+                  <code class="example-card__value">01:30</code>
+                </div>
+              </div>
+              <div class="example-pair">
+                <div class="example-card example-card--before">
+                  <span class="example-card__label">Before</span>
+                  <code class="example-card__value">¾</code>
+                </div>
+                <div class="example-card example-card--after">
+                  <span class="example-card__label">After</span>
+                  <code class="example-card__value">00:45</code>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--alt" aria-labelledby="how-title">
+      <div class="container">
+        <header>
+          <h2 id="how-title" class="section__title">How it works</h2>
+          <p class="section__lead">Three steps. No code. Runs on every column change.</p>
+        </header>
+        <div class="steps">
+          <div class="step">
+            <div class="step__number" aria-hidden="true">1</div>
+            <div class="step__content">
+              <h3 class="step__title">Trigger</h3>
+              <p class="step__text">When a column changes on your board, monday sends the cell value to Clara.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step__number" aria-hidden="true">2</div>
+            <div class="step__content">
+              <h3 class="step__title">Format</h3>
+              <p class="step__text">Clara applies your chosen transformer: text, number, time, phone, email, IBAN, or postal code.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step__number" aria-hidden="true">3</div>
+            <div class="step__content">
+              <h3 class="step__title">Done</h3>
+              <p class="step__text">The cell is updated automatically. Clean data, every time.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="features-title">
+      <div class="container">
+        <header id="features">
+          <h2 id="features-title" class="section__title">Format categories</h2>
+          <p class="section__lead">28 transformers across six categories. Each handles real-world input variations.</p>
+        </header>
+        <div class="features">
+          <div class="feature feature--text">
+            <p class="feature__category">Text</p>
+            <ul class="feature__list">
+              <li>Title Case</li>
+              <li>UPPERCASE</li>
+              <li>lowercase</li>
+              <li>Trim Spaces</li>
+            </ul>
+          </div>
+          <div class="feature feature--numbers">
+            <p class="feature__category">Numbers</p>
+            <ul class="feature__list">
+              <li>US format (1,234.56)</li>
+              <li>EU format (1.234,56)</li>
+              <li>CH format (1'234.56)</li>
+              <li>FR format (1 234,56)</li>
+              <li>Integer US / EU</li>
+              <li>Currency USD / EUR</li>
+              <li>Percentage</li>
+              <li>Compact K/M/B/T</li>
+              <li>Compact DE</li>
+            </ul>
+          </div>
+          <div class="feature feature--time">
+            <p class="feature__category">Time and duration</p>
+            <ul class="feature__list">
+              <li>HH:MM</li>
+              <li>H:MM</li>
+              <li>Decimal hours</li>
+              <li>Decimal hours DE</li>
+              <li>Hours and minutes</li>
+              <li>Total minutes</li>
+              <li>Days</li>
+              <li>Weeks</li>
+            </ul>
+          </div>
+          <div class="feature feature--contact">
+            <p class="feature__category">Contact</p>
+            <ul class="feature__list">
+              <li>Phone (+prefix, E.164)</li>
+              <li>Email and domain cleanup</li>
+            </ul>
+          </div>
+          <div class="feature feature--finance">
+            <p class="feature__category">Finance</p>
+            <ul class="feature__list">
+              <li>IBAN grouping</li>
+            </ul>
+          </div>
+          <div class="feature feature--address">
+            <p class="feature__category">Address</p>
+            <ul class="feature__list">
+              <li>Postal and country codes (US, UK, DE, FR, ES, IT)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--alt" aria-labelledby="compat-title">
+      <div class="container">
+        <header id="compatibility">
+          <h2 id="compat-title" class="section__title">Column compatibility</h2>
+          <p class="section__lead">Clara works best with text columns. Numbers columns accept numeric output only.</p>
+        </header>
+        <div class="column-compat">
+          <div class="compat-list">
+            <div class="compat-list__item">
+              <span class="compat-list__status compat-list__status--supported">Supported</span>
+              <p class="compat-list__label"><strong>Text columns:</strong> all 28 formatters work. Recommended for every format type.</p>
+            </div>
+            <div class="compat-list__item">
+              <span class="compat-list__status compat-list__status--limited">Limited</span>
+              <p class="compat-list__label"><strong>Numbers columns:</strong> numeric output only. Suffixes like <code>d</code>, <code>min</code>, <code>%</code> are stripped.</p>
+            </div>
+            <div class="compat-list__item">
+              <span class="compat-list__status compat-list__status--not-supported">Not supported</span>
+              <p class="compat-list__label"><strong>Status, Date, People, and other types:</strong> monday does not allow write-back to these column types via automation.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--alt" id="pricing" aria-labelledby="pricing-title">
+      <div class="container">
+        <header>
+          <h2 id="pricing-title" class="section__title">Pricing</h2>
+          <p class="section__lead">Simple usage-based plans. Billed through the monday.com marketplace.</p>
+          <p class="pricing__note">All plans include all 28 formatters. Limits reset each billing period.</p>
+        </header>
+
+        <div class="pricing-grid">
+          <article class="card card--pricing">
+            <h3 class="card__title">Free</h3>
+            <p class="pricing-price"><span class="pricing-price__amount">$0</span><span class="pricing-price__period">/mo</span></p>
+            <p class="pricing-yearly" aria-hidden="true">&nbsp;</p>
+            <p class="card__text pricing-limit">Up to <strong>500</strong> transformations per month</p>
+            <a href="#install" class="btn btn--secondary card--pricing__cta clara-install">Install free</a>
+          </article>
+
+          <article class="card card--pricing">
+            <h3 class="card__title">Basic</h3>
+            <p class="pricing-price"><span class="pricing-price__amount">$5</span><span class="pricing-price__period">/mo</span></p>
+            <p class="pricing-yearly">$40/year billed annually</p>
+            <p class="card__text pricing-limit">Up to <strong>3,000</strong> transformations per month</p>
+            <a href="#install" class="btn btn--secondary card--pricing__cta clara-install">Install on monday</a>
+          </article>
+
+          <article class="card card--pricing card--pricing-featured">
+            <span class="badge card--pricing__badge">Popular</span>
+            <h3 class="card__title">Pro</h3>
+            <p class="pricing-price"><span class="pricing-price__amount">$10</span><span class="pricing-price__period">/mo</span></p>
+            <p class="pricing-yearly">$100/year billed annually</p>
+            <p class="card__text pricing-limit">Up to <strong>10,000</strong> transformations per month</p>
+            <a href="#install" class="btn btn--primary card--pricing__cta clara-install">Install on monday</a>
+          </article>
+
+          <article class="card card--pricing">
+            <h3 class="card__title">Team</h3>
+            <p class="pricing-price"><span class="pricing-price__amount">$25</span><span class="pricing-price__period">/mo</span></p>
+            <p class="pricing-yearly">$250/year billed annually</p>
+            <p class="card__text pricing-limit">Up to <strong>50,000</strong> transformations per month</p>
+            <a href="#install" class="btn btn--secondary card--pricing__cta clara-install">Install on monday</a>
+          </article>
+        </div>
+
+        <p class="pricing__footnote">Upgrade or change plans anytime in monday → Installed Apps. Paid tiers are selected during or after install in the monday marketplace.</p>
+
+        <div class="pricing__transform-note">
+          <strong>What counts as a transformation?</strong> One successful Clara automation run — including when the loop guard skips a write because the formatted value is already correct.
+        </div>
+
+        <p class="text-center mt-lg"><a href="/pricing/">Full pricing details</a></p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="faq-title">
+      <div class="container">
+        <header id="faq">
+          <h2 id="faq-title" class="section__title">Frequently asked questions</h2>
+          <p class="section__lead">Common questions about Quinsy Clara, monday.com automations, and data formatting.</p>
+        </header>
+        <div class="faq-list">
+          <details class="faq-item" open>
+            <summary class="faq-item__question">What is Quinsy Clara?</summary>
+            <div class="faq-item__answer">
+              <p>Quinsy Clara is a monday.com automation app that formats and sanitizes column data the moment a cell changes. It runs as a workflow action inside your monday.com board, so values are cleaned without manual editing or scripts.</p>
+            </div>
+          </details>
+          <details class="faq-item" open>
+            <summary class="faq-item__question">How does Clara work with monday.com automations?</summary>
+            <div class="faq-item__answer">
+              <p>You create an automation where a column change triggers the Quinsy Clara action and you pick a format from the dropdown. monday.com sends the board ID, item ID, column ID, and cell value to Clara, which applies the transformer and writes the result back to the same column.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-item__question">What types of data can Clara format?</summary>
+            <div class="faq-item__answer">
+              <p>Clara formats text, numbers, phone numbers, email addresses, IBANs, postal codes, and time or duration values. Each category handles real-world input variations such as mixed separators, local phone formats, and timesheet notation.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-item__question">How many format types does Clara include?</summary>
+            <div class="faq-item__answer">
+              <p>Quinsy Clara includes 28 formatters across 6 categories: Text, Numbers, Time and duration, Contact, Finance, and Address. You choose one format per automation recipe.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-item__question">Which monday.com column types does Clara support?</summary>
+            <div class="faq-item__answer">
+              <p>Text columns support all 28 formatters and are the recommended choice. Numbers columns accept numeric output only, with suffixes like <code>d</code>, <code>min</code>, or <code>%</code> stripped. Status, Date, People, and other column types are not supported because monday.com does not allow write-back via automation.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-item__question">Should I use a Text or Numbers column with Clara?</summary>
+            <div class="faq-item__answer">
+              <p>Use a Text column when the formatted result includes labels, units, or symbols such as <code>1h 30m</code>, <code>$1,234.56</code>, or <code>+49 170 1234567</code>. Use a Numbers column only when you need a raw decimal value without suffixes, for example 1.5 decimal hours on a hours column.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-item__question">Can Clara fix mixed US and EU number formats?</summary>
+            <div class="faq-item__answer">
+              <p>Yes. Clara can rewrite numbers between US (<code>1,234.56</code>), EU (<code>1.234,56</code>), CH (<code>1'234.56</code>), and FR (<code>1 234,56</code>) formats. When both period and comma appear, the last separator is treated as the decimal mark.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-item__question">How does Clara handle timesheet values like 0.45 or ¾?</summary>
+            <div class="faq-item__answer">
+              <p>Clara parses timesheet notation where the fractional part represents minutes, so <code>0.45</code> means 45 minutes and outputs formats like <code>00:45</code>. It also understands fraction characters such as <code>¾</code> and plain minute values like <code>90</code>.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-item__question">What is the difference between 1.5 and 1.30 in Clara time parsing?</summary>
+            <div class="faq-item__answer">
+              <p>The value <code>1.5</code> is read as 1.5 decimal hours, while <code>1.30</code> is read as 1 hour and 30 minutes in timesheet notation. Pick the output format that matches how your team records time, such as HH:MM or Decimal hours.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-item__question">Can Clara format phone numbers internationally?</summary>
+            <div class="faq-item__answer">
+              <p>Yes. Phone numbers that include a <code>+</code> prefix or <code>00</code> international prefix are validated and formatted to E.164 with a spaced country code, for example <code>+49 170 1234567</code>. Clara uses libphonenumber for global phone validation.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-item__question">Does Clara add country codes to local phone numbers?</summary>
+            <div class="faq-item__answer">
+              <p>No. Clara does not guess a country code for local numbers without a <code>+</code> or <code>00</code> prefix. It only removes spaces and dashes, so <code>0170 1234567</code> becomes <code>01701234567</code> without adding <code>+49</code>.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-item__question">Can Clara normalize email addresses?</summary>
+            <div class="faq-item__answer">
+              <p>Yes. The Contact · Email and Domain formatter lowercases addresses, trims whitespace, and cleans the domain portion. For example, <code> Max@EXAMPLE.COM </code> becomes <code>max@example.com</code> before CRM sync or exports.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-item__question">Does Clara format IBANs and postal codes?</summary>
+            <div class="faq-item__answer">
+              <p>Yes. Clara groups IBAN strings into standard blocks, for example <code>DE89 3704 0044 0532 0130 00</code>. The Address · Postal and Country formatter normalizes postal codes for US, UK, DE, FR, ES, and IT formats.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-item__question">What happens if Clara cannot parse a value?</summary>
+            <div class="faq-item__answer">
+              <p>The original cell value is left unchanged. The automation completes successfully and returns the unmodified text, so a bad entry does not break your workflow or clear the cell.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-item__question">Can Clara cause infinite automation loops?</summary>
+            <div class="faq-item__answer">
+              <p>No. Clara includes a loop guard that skips the write-back when the formatted output is identical to the current value. This prevents a column change from re-triggering the same automation endlessly.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-item__question">Does Clara store my monday.com board data?</summary>
+            <div class="faq-item__answer">
+              <p>Clara processes cell values in-flight during each automation run and does not build a persistent copy of your board data. For details on retention and processing, see our <a href="/privacy/">Privacy Policy</a>.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-item__question">Do I need to write code to use Clara?</summary>
+            <div class="faq-item__answer">
+              <p>No. Clara is configured entirely inside the monday.com automation builder with a format dropdown. You map trigger fields to action inputs using the provided automation template and pick the formatter you need.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-item__question">How do I install Clara on monday.com?</summary>
+            <div class="faq-item__answer">
+              <p>Install Quinsy Clara from the monday.com marketplace and add it as an action in your automation recipes. The marketplace listing is currently in review; check monday.com for availability.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-item__question">Is Quinsy Clara free?</summary>
+            <div class="faq-item__answer">
+              <p>Clara includes a <strong>free plan</strong> with 500 transformations per month. Paid plans (Basic $5/mo, Pro $10/mo, Team $25/mo) offer higher limits. All plans include every formatter. Billing is handled through the monday.com marketplace. See our <a href="#pricing">pricing section</a> or <a href="/pricing/">pricing page</a> for details.</p>
+            </div>
+          </details>
+          <details class="faq-item">
+            <summary class="faq-item__question">Who makes Quinsy Clara?</summary>
+            <div class="faq-item__answer">
+              <p>Quinsy Clara is made by Quinsy, a productivity suite of focused apps for modern work tools. Clara is the first Quinsy product and is built specifically for monday.com teams.</p>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--alt" aria-labelledby="cta-title">
+      <div class="container text-center">
+        <h2 id="cta-title" class="section__title">Ready for clean data?</h2>
+        <p class="section__lead">Install Clara on monday.com and start formatting automatically.</p>
+        <div class="hero__ctas">
+          <a href="#install" class="btn btn--primary clara-install">Install on monday</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="container site-footer__inner">
+      <nav class="site-footer__links" aria-label="Footer navigation">
+        <a href="/privacy/" class="site-footer__link">Privacy</a>
+        <a href="/terms/" class="site-footer__link">Terms</a>
+        <a href="/imprint/" class="site-footer__link">Imprint</a>
+      </nav>
+      <div class="site-footer__divider" aria-hidden="true"></div>
+      <p class="site-footer__attribution">
+        A product by
+        <a href="https://quinsy.app" class="wordmark wordmark--footer" target="_blank" rel="noopener noreferrer">
+          <span class="wordmark__serif">Quinsy</span>
+        </a>
+        <span aria-hidden="true">·</span>
+        © 2026 Quinsy
+      </p>
+    </div>
+  </footer>
+  <script src="/js/monday-config.js"></script>
+  <script src="/js/monday-install.js"></script>
+  <script src="/js/automation-demo.js" defer></script>
+  <script src="/js/example-cards.js" defer></script>
+</body>
+</html>
