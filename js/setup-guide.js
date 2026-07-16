@@ -1,7 +1,34 @@
 (function () {
   'use strict';
 
-  function init() {
+  function initTabs() {
+    var tabRoot = document.querySelector('[data-setup-tabs]');
+    if (!tabRoot) return;
+
+    var tabs = tabRoot.querySelectorAll('[data-setup-tab]');
+    var panels = tabRoot.querySelectorAll('[data-setup-panel]');
+
+    tabs.forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        var target = tab.getAttribute('data-setup-tab');
+
+        tabs.forEach(function (btn) {
+          var isActive = btn === tab;
+          btn.classList.toggle('is-active', isActive);
+          btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+          btn.setAttribute('tabindex', isActive ? '0' : '-1');
+        });
+
+        panels.forEach(function (panel) {
+          var isActive = panel.getAttribute('data-setup-panel') === target;
+          panel.classList.toggle('is-active', isActive);
+          panel.hidden = !isActive;
+        });
+      });
+    });
+  }
+
+  function initFilters() {
     var searchInput = document.querySelector('[data-setup-search]');
     var categoryButtons = document.querySelectorAll('[data-setup-category]');
     var rows = document.querySelectorAll('[data-setup-row]');
@@ -51,6 +78,11 @@
     });
 
     applyFilters();
+  }
+
+  function init() {
+    initTabs();
+    initFilters();
   }
 
   if (document.readyState === 'loading') {

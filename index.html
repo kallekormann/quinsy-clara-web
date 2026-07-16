@@ -722,50 +722,6 @@
           <p class="section__lead">Choose the right column type on your board first, then add the automation. <a href="#compatibility">Column compatibility overview</a></p>
         </header>
 
-        <div class="setup-block">
-          <h3 class="setup-block__title">Column types on monday.com</h3>
-          <p class="setup-block__lead">Create the column on your board before you add the automation. Pick the column type based on what the formatted result needs to look like — not based on what the input looks like today.</p>
-          <div class="setup-table-wrap">
-            <table class="setup-table setup-table--compact">
-              <thead>
-                <tr>
-                  <th scope="col">Column type</th>
-                  <th scope="col">Recommended?</th>
-                  <th scope="col">Notes</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><strong>Text</strong></td>
-                  <td>Best choice</td>
-                  <td>All formatters; supports labels and units (<code>1h 30m</code>, <code>0.75 d</code>, <code>DE89 3704 …</code>)</td>
-                </tr>
-                <tr>
-                  <td><strong>Long text</strong></td>
-                  <td>Good</td>
-                  <td>Same as Text; useful for longer formatted values</td>
-                </tr>
-                <tr>
-                  <td><strong>Numbers</strong></td>
-                  <td>Limited</td>
-                  <td>Only pure numeric output (e.g. <code>1234.56</code>, <code>0.75</code>). Suffixes like <code>d</code>, <code>min</code>, <code>%</code>, <code>€</code> are stripped</td>
-                </tr>
-                <tr>
-                  <td><strong>Name</strong> (item title)</td>
-                  <td>Use carefully</td>
-                  <td>Works technically, but formatting the item name affects board navigation</td>
-                </tr>
-                <tr>
-                  <td><strong>Status, Date, People, etc.</strong></td>
-                  <td>Not supported</td>
-                  <td>Clara is for text-like and numeric values only</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <p class="setup-rule">Default rule: use a <strong>Text</strong> column unless you need a plain decimal for rollups (e.g. <strong>Time · Decimal hours</strong> on an hours column).</p>
-        </div>
-
         <div class="setup-callouts">
           <div class="setup-callout setup-callout--compact">
             <p class="setup-callout__title">Numbers columns store only the numeric part</p>
@@ -783,39 +739,66 @@
           </div>
         </div>
 
-        <div class="setup-block">
-          <h3 class="setup-block__title">Board and automation setup</h3>
-          <ol class="setup-steps">
-            <li><strong>Create the column on your board</strong> — choose Text, Long text, or Numbers based on the formatter table below</li>
-            <li><strong>Install Clara</strong> from the monday marketplace</li>
-            <li><strong>Add the automation template</strong> — <em>When column changes → format column as format</em></li>
-            <li><strong>Pick the column and formatter</strong> from the dropdown (no mapping needed for <code>formatType</code>)</li>
-            <li>
-              <strong>Map trigger fields</strong> (required for reliable reads):
-              <div class="setup-table-wrap">
-                <table class="setup-table setup-table--compact">
-                  <thead>
-                    <tr>
-                      <th scope="col">Trigger output</th>
-                      <th scope="col">Action input</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr><td><code>boardId</code></td><td><code>boardId</code></td></tr>
-                    <tr><td><code>itemId</code></td><td><code>itemId</code></td></tr>
-                    <tr><td><code>columnId</code></td><td><code>columnId</code></td></tr>
-                    <tr><td><code>currentValue</code></td><td><code>columnValue</code></td></tr>
-                  </tbody>
-                </table>
-              </div>
-            </li>
-            <li><strong>Test</strong> — edit a cell and confirm the formatted value is preserved in the column</li>
-          </ol>
-          <p class="setup-block__note"><a href="/how-to/">Open the in-app setup guide</a></p>
-        </div>
+        <div class="setup-tabs" data-setup-tabs>
+          <div class="setup-tabs__bar" role="tablist" aria-label="Setup guide sections">
+            <button type="button" class="setup-tab is-active" role="tab" id="setup-tab-automation" aria-selected="true" aria-controls="setup-panel-automation" data-setup-tab="automation">Board and automation setup</button>
+            <button type="button" class="setup-tab" role="tab" id="setup-tab-formatters" aria-selected="false" aria-controls="setup-panel-formatters" data-setup-tab="formatters" tabindex="-1">Formatter reference</button>
+          </div>
 
-        <div class="setup-block">
-          <h3 class="setup-block__title">Formatter reference</h3>
+          <div class="setup-tabs__panel is-active" role="tabpanel" id="setup-panel-automation" aria-labelledby="setup-tab-automation" data-setup-panel="automation">
+            <div class="setup-step-cards">
+              <article class="setup-step-card">
+                <span class="setup-step-card__number" aria-hidden="true">1</span>
+                <div class="setup-step-card__content">
+                  <h3 class="setup-step-card__title">Create the column on your board</h3>
+                  <p>Choose <strong>Text</strong>, <strong>Long text</strong>, or <strong>Numbers</strong> based on the formatter you plan to use. Pick the column type for the formatted result — not for how the input looks today.</p>
+                </div>
+              </article>
+              <article class="setup-step-card">
+                <span class="setup-step-card__number" aria-hidden="true">2</span>
+                <div class="setup-step-card__content">
+                  <h3 class="setup-step-card__title">Install from the marketplace</h3>
+                  <p>Install <strong>Quinsy Clara</strong> from the monday.com marketplace. Your admin can add it from Apps or via the install link in the Developer Center.</p>
+                </div>
+              </article>
+              <article class="setup-step-card">
+                <span class="setup-step-card__number" aria-hidden="true">3</span>
+                <div class="setup-step-card__content">
+                  <h3 class="setup-step-card__title">Add the automation template</h3>
+                  <p>Open a board → <strong>Automate</strong> → search for <strong>Quinsy Clara</strong> → add the template: <em>When column changes → format column as format</em>.</p>
+                </div>
+              </article>
+              <article class="setup-step-card">
+                <span class="setup-step-card__number" aria-hidden="true">4</span>
+                <div class="setup-step-card__content">
+                  <h3 class="setup-step-card__title">Pick column and format</h3>
+                  <p>Select the column to watch and choose a formatter from the dropdown (e.g. Text · Title Case, Number · EU, Time · HH:MM). No mapping needed for <code>formatType</code>.</p>
+                </div>
+              </article>
+              <article class="setup-step-card">
+                <span class="setup-step-card__number" aria-hidden="true">5</span>
+                <div class="setup-step-card__content">
+                  <h3 class="setup-step-card__title">Map trigger fields</h3>
+                  <p>On newer automation builder accounts, map the trigger output to the action input:</p>
+                  <ul class="setup-step-card__list">
+                    <li><code>boardId</code> → <code>boardId</code></li>
+                    <li><code>itemId</code> → <code>itemId</code></li>
+                    <li><code>columnId</code> → <code>columnId</code></li>
+                    <li><code>currentValue</code> → <code>columnValue</code></li>
+                  </ul>
+                </div>
+              </article>
+              <article class="setup-step-card">
+                <span class="setup-step-card__number" aria-hidden="true">6</span>
+                <div class="setup-step-card__content">
+                  <h3 class="setup-step-card__title">Test it</h3>
+                  <p>Edit a cell in the watched column. Clara reads the value, applies the format, and writes the result back automatically.</p>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <div class="setup-tabs__panel" role="tabpanel" id="setup-panel-formatters" aria-labelledby="setup-tab-formatters" data-setup-panel="formatters" hidden>
           <div class="setup-toolbar">
             <label class="setup-search">
               <span class="visually-hidden">Search formatters</span>
@@ -1066,6 +1049,51 @@
           </div>
           <p class="setup-empty" hidden data-setup-empty>No formatters match your search.</p>
           <p class="setup-block__note">On Text columns, currency symbols and trailing codes are preserved (e.g. <code>$12345</code> → <code>$12.35K</code>). Time input: <code>1.5</code> = decimal hours; <code>1.30</code> = 1h 30m timesheet notation.</p>
+          </div>
+        </div>
+
+        <div class="setup-block">
+          <h3 class="setup-block__title">Column types on monday.com</h3>
+          <p class="setup-block__lead">Create the column on your board before you add the automation. Pick the column type based on what the formatted result needs to look like — not based on what the input looks like today.</p>
+          <div class="setup-table-wrap">
+            <table class="setup-table setup-table--compact">
+              <thead>
+                <tr>
+                  <th scope="col">Column type</th>
+                  <th scope="col">Recommended?</th>
+                  <th scope="col">Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Text</strong></td>
+                  <td>Best choice</td>
+                  <td>All formatters; supports labels and units (<code>1h 30m</code>, <code>0.75 d</code>, <code>DE89 3704 …</code>)</td>
+                </tr>
+                <tr>
+                  <td><strong>Long text</strong></td>
+                  <td>Good</td>
+                  <td>Same as Text; useful for longer formatted values</td>
+                </tr>
+                <tr>
+                  <td><strong>Numbers</strong></td>
+                  <td>Limited</td>
+                  <td>Only pure numeric output (e.g. <code>1234.56</code>, <code>0.75</code>). Suffixes like <code>d</code>, <code>min</code>, <code>%</code>, <code>€</code> are stripped</td>
+                </tr>
+                <tr>
+                  <td><strong>Name</strong> (item title)</td>
+                  <td>Use carefully</td>
+                  <td>Works technically, but formatting the item name affects board navigation</td>
+                </tr>
+                <tr>
+                  <td><strong>Status, Date, People, etc.</strong></td>
+                  <td>Not supported</td>
+                  <td>Clara is for text-like and numeric values only</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="setup-rule">Default rule: use a <strong>Text</strong> column unless you need a plain decimal for rollups (e.g. <strong>Time · Decimal hours</strong> on an hours column).</p>
         </div>
 
         <div class="setup-footer">
