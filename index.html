@@ -213,6 +213,7 @@
       <nav class="site-header__nav" aria-label="Main navigation">
         <a href="#features" class="link--muted">Features</a>
         <a href="#compatibility" class="link--muted">Compatibility</a>
+        <a href="#setup" class="link--muted">Setup</a>
         <a href="#pricing" class="link--muted">Pricing</a>
         <a href="#faq" class="link--muted">FAQ</a>
       </nav>
@@ -509,7 +510,7 @@
       <div class="container">
         <header id="compatibility">
           <h2 id="compat-title" class="section__title">Column compatibility</h2>
-          <p class="section__lead">Clara works best with text columns. Numbers columns accept numeric output only.</p>
+          <p class="section__lead">Clara works best with text columns. Numbers columns accept numeric output only. See the <a href="#setup">Setup guide</a> for board and automation steps.</p>
         </header>
         <div class="column-compat">
           <div class="compat-list">
@@ -714,7 +715,384 @@
       </div>
     </section>
 
-    <section class="section section--alt" aria-labelledby="cta-title">
+    <section class="section section--alt" id="setup" aria-labelledby="setup-title">
+      <div class="container setup-guide">
+        <header>
+          <h2 id="setup-title" class="section__title">Setup guide</h2>
+          <p class="section__lead">Choose the right column type on your board first, then add the automation. <a href="#compatibility">Column compatibility overview</a></p>
+        </header>
+
+        <div class="setup-block">
+          <h3 class="setup-block__title">Column types on monday.com</h3>
+          <p class="setup-block__lead">Create the column on your board before you add the automation. Pick the column type based on what the formatted result needs to look like — not based on what the input looks like today.</p>
+          <div class="setup-table-wrap">
+            <table class="setup-table setup-table--compact">
+              <thead>
+                <tr>
+                  <th scope="col">Column type</th>
+                  <th scope="col">Recommended?</th>
+                  <th scope="col">Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Text</strong></td>
+                  <td>Best choice</td>
+                  <td>All formatters; supports labels and units (<code>1h 30m</code>, <code>0.75 d</code>, <code>DE89 3704 …</code>)</td>
+                </tr>
+                <tr>
+                  <td><strong>Long text</strong></td>
+                  <td>Good</td>
+                  <td>Same as Text; useful for longer formatted values</td>
+                </tr>
+                <tr>
+                  <td><strong>Numbers</strong></td>
+                  <td>Limited</td>
+                  <td>Only pure numeric output (e.g. <code>1234.56</code>, <code>0.75</code>). Suffixes like <code>d</code>, <code>min</code>, <code>%</code>, <code>€</code> are stripped</td>
+                </tr>
+                <tr>
+                  <td><strong>Name</strong> (item title)</td>
+                  <td>Use carefully</td>
+                  <td>Works technically, but formatting the item name affects board navigation</td>
+                </tr>
+                <tr>
+                  <td><strong>Status, Date, People, etc.</strong></td>
+                  <td>Not supported</td>
+                  <td>Clara is for text-like and numeric values only</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="setup-rule">Default rule: use a <strong>Text</strong> column unless you need a plain decimal for rollups (e.g. <strong>Time · Decimal hours</strong> on an hours column).</p>
+        </div>
+
+        <div class="setup-callouts">
+          <div class="setup-callout setup-callout--compact">
+            <p class="setup-callout__title">Numbers columns store only the numeric part</p>
+            <p>Clara detects Numbers columns automatically (<code>columnId</code> starts with <code>numeric_</code>).</p>
+            <ul>
+              <li><code>0.75 d</code> → <code>0.75</code></li>
+              <li><code>90 min</code> → <code>90</code></li>
+              <li><code>01:30</code> → error (no column update)</li>
+              <li><code>$1,234.56</code> / <code>1.5M</code> → clear error instead of a broken value</li>
+            </ul>
+          </div>
+          <div class="setup-callout setup-callout--compact setup-callout--warning">
+            <p class="setup-callout__title">Time · Days on a hours column</p>
+            <p><strong>Time · Days</strong> on a Numbers column that stores <strong>hours</strong> overwrites hours with days (e.g. <code>6</code> → <code>0.75</code>). Use <strong>Time · Decimal hours</strong> if the column should stay in hours.</p>
+          </div>
+        </div>
+
+        <div class="setup-block">
+          <h3 class="setup-block__title">Board and automation setup</h3>
+          <ol class="setup-steps">
+            <li><strong>Create the column on your board</strong> — choose Text, Long text, or Numbers based on the formatter table below</li>
+            <li><strong>Install Clara</strong> from the monday marketplace</li>
+            <li><strong>Add the automation template</strong> — <em>When column changes → format column as format</em></li>
+            <li><strong>Pick the column and formatter</strong> from the dropdown (no mapping needed for <code>formatType</code>)</li>
+            <li>
+              <strong>Map trigger fields</strong> (required for reliable reads):
+              <div class="setup-table-wrap">
+                <table class="setup-table setup-table--compact">
+                  <thead>
+                    <tr>
+                      <th scope="col">Trigger output</th>
+                      <th scope="col">Action input</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td><code>boardId</code></td><td><code>boardId</code></td></tr>
+                    <tr><td><code>itemId</code></td><td><code>itemId</code></td></tr>
+                    <tr><td><code>columnId</code></td><td><code>columnId</code></td></tr>
+                    <tr><td><code>currentValue</code></td><td><code>columnValue</code></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </li>
+            <li><strong>Test</strong> — edit a cell and confirm the formatted value is preserved in the column</li>
+          </ol>
+          <p class="setup-block__note"><a href="/how-to/">Open the in-app setup guide</a></p>
+        </div>
+
+        <div class="setup-block">
+          <h3 class="setup-block__title">Formatter reference</h3>
+          <div class="setup-toolbar">
+            <label class="setup-search">
+              <span class="visually-hidden">Search formatters</span>
+              <input type="search" class="setup-search__input" placeholder="Search formatters, column types, use cases…" data-setup-search autocomplete="off">
+            </label>
+            <div class="setup-filters" role="group" aria-label="Filter by category">
+              <button type="button" class="setup-filter is-active" data-setup-category="all">All</button>
+              <button type="button" class="setup-filter" data-setup-category="text">Text</button>
+              <button type="button" class="setup-filter" data-setup-category="number">Number</button>
+              <button type="button" class="setup-filter" data-setup-category="time">Time</button>
+              <button type="button" class="setup-filter" data-setup-category="contact">Contact</button>
+              <button type="button" class="setup-filter" data-setup-category="finance">Finance</button>
+              <button type="button" class="setup-filter" data-setup-category="address">Address</button>
+            </div>
+            <p class="setup-results" data-setup-results aria-live="polite">Showing 27 of 27 formatters</p>
+          </div>
+          <div class="setup-table-wrap setup-table-wrap--main">
+            <table class="setup-table">
+              <thead>
+                <tr>
+                  <th scope="col">Category</th>
+                  <th scope="col">Formatter</th>
+                  <th scope="col">Best column</th>
+                  <th scope="col">Example output</th>
+                  <th scope="col">Typical use</th>
+                  <th scope="col">Why</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr data-setup-row data-category="text">
+                  <td><span class="setup-table__category">Text</span></td>
+                  <td>Text · Title Case</td>
+                  <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
+                  <td><code>Hello World</code></td>
+                  <td>Customer names</td>
+                  <td>String output</td>
+                </tr>
+                <tr data-setup-row data-category="text">
+                  <td><span class="setup-table__category">Text</span></td>
+                  <td>Text · UPPERCASE</td>
+                  <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
+                  <td><code>HELLO WORLD</code></td>
+                  <td>Codes, headings</td>
+                  <td>String output</td>
+                </tr>
+                <tr data-setup-row data-category="text">
+                  <td><span class="setup-table__category">Text</span></td>
+                  <td>Text · lowercase</td>
+                  <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
+                  <td><code>hello world</code></td>
+                  <td>Emails, slugs</td>
+                  <td>String output</td>
+                </tr>
+                <tr data-setup-row data-category="text">
+                  <td><span class="setup-table__category">Text</span></td>
+                  <td>Text · Trim Spaces</td>
+                  <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
+                  <td><code>hello world</code></td>
+                  <td>Messy notes</td>
+                  <td>Cleanup</td>
+                </tr>
+                <tr data-setup-row data-category="number">
+                  <td><span class="setup-table__category">Number</span></td>
+                  <td>Number · US (1,234.56)</td>
+                  <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
+                  <td><code>1,234,567.89</code></td>
+                  <td>US/UK reports</td>
+                  <td>Separators not stored in Numbers</td>
+                </tr>
+                <tr data-setup-row data-category="number">
+                  <td><span class="setup-table__category">Number</span></td>
+                  <td>Number · EU (1.234,56)</td>
+                  <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
+                  <td><code>1.234.567,89</code></td>
+                  <td>EU reports</td>
+                  <td>Separators not stored in Numbers</td>
+                </tr>
+                <tr data-setup-row data-category="number">
+                  <td><span class="setup-table__category">Number</span></td>
+                  <td>Number · CH (1'234.56)</td>
+                  <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
+                  <td><code>1'234'567.89</code></td>
+                  <td>Switzerland</td>
+                  <td>Apostrophe separator</td>
+                </tr>
+                <tr data-setup-row data-category="number">
+                  <td><span class="setup-table__category">Number</span></td>
+                  <td>Number · FR (1 234,56)</td>
+                  <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
+                  <td><code>1 234 567,89</code></td>
+                  <td>France</td>
+                  <td>Space separator</td>
+                </tr>
+                <tr data-setup-row data-category="number">
+                  <td><span class="setup-table__category">Number</span></td>
+                  <td>Number · Integer US (1,234)</td>
+                  <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
+                  <td><code>1,235</code></td>
+                  <td>Whole numbers US</td>
+                  <td>Grouping stripped in Numbers</td>
+                </tr>
+                <tr data-setup-row data-category="number">
+                  <td><span class="setup-table__category">Number</span></td>
+                  <td>Number · Integer EU (1.234)</td>
+                  <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
+                  <td><code>1.235</code></td>
+                  <td>Whole numbers EU</td>
+                  <td>Grouping stripped in Numbers</td>
+                </tr>
+                <tr data-setup-row data-category="number">
+                  <td><span class="setup-table__category">Number</span></td>
+                  <td>Number · Currency USD ($1,234.56)</td>
+                  <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
+                  <td><code>$1,234.50</code></td>
+                  <td>USD display</td>
+                  <td><code>$</code> stripped in Numbers</td>
+                </tr>
+                <tr data-setup-row data-category="number">
+                  <td><span class="setup-table__category">Number</span></td>
+                  <td>Number · Currency EUR (1.234,56 €)</td>
+                  <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
+                  <td><code>1.234,50 €</code></td>
+                  <td>EUR display</td>
+                  <td><code>€</code> stripped in Numbers</td>
+                </tr>
+                <tr data-setup-row data-category="number">
+                  <td><span class="setup-table__category">Number</span></td>
+                  <td>Number · Percentage (12.34%)</td>
+                  <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
+                  <td><code>12.50%</code></td>
+                  <td>Rates, completion</td>
+                  <td><code>%</code> stripped in Numbers</td>
+                </tr>
+                <tr data-setup-row data-category="number">
+                  <td><span class="setup-table__category">Number</span></td>
+                  <td>Number · Compact K/M/B/T (1.5M)</td>
+                  <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
+                  <td><code>1.5M</code></td>
+                  <td>KPI dashboards</td>
+                  <td>K/M/B/T stripped; errors on Numbers</td>
+                </tr>
+                <tr data-setup-row data-category="number">
+                  <td><span class="setup-table__category">Number</span></td>
+                  <td>Number · Compact DE (1,5 Mio.)</td>
+                  <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
+                  <td><code>1,5 Mio.</code></td>
+                  <td>German KPIs</td>
+                  <td>Mio./Mrd. stripped in Numbers</td>
+                </tr>
+                <tr data-setup-row data-category="time">
+                  <td><span class="setup-table__category">Time</span></td>
+                  <td>Time · HH:MM (01:30)</td>
+                  <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
+                  <td><code>01:30</code></td>
+                  <td>Clock display</td>
+                  <td>Colon — Numbers returns error</td>
+                </tr>
+                <tr data-setup-row data-category="time">
+                  <td><span class="setup-table__category">Time</span></td>
+                  <td>Time · H:MM (1:30)</td>
+                  <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
+                  <td><code>1:30</code></td>
+                  <td>Compact clock</td>
+                  <td>Colon notation</td>
+                </tr>
+                <tr data-setup-row data-category="time">
+                  <td><span class="setup-table__category">Time</span></td>
+                  <td>Time · Decimal hours (1.5)</td>
+                  <td><span class="compat-list__status compat-list__status--limited">Numbers</span></td>
+                  <td><code>1.5</code></td>
+                  <td>Hours for rollups</td>
+                  <td>Plain decimal OK in Numbers</td>
+                </tr>
+                <tr data-setup-row data-category="time">
+                  <td><span class="setup-table__category">Time</span></td>
+                  <td>Time · Decimal hours DE (1,5 Std.)</td>
+                  <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
+                  <td><code>1,5 Std.</code></td>
+                  <td>German hours</td>
+                  <td>Comma decimal + label</td>
+                </tr>
+                <tr data-setup-row data-category="time">
+                  <td><span class="setup-table__category">Time</span></td>
+                  <td>Time · Hours &amp; minutes (1h 30m)</td>
+                  <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
+                  <td><code>1h 30m</code></td>
+                  <td>Readable durations</td>
+                  <td>Unit labels stripped in Numbers</td>
+                </tr>
+                <tr data-setup-row data-category="time">
+                  <td><span class="setup-table__category">Time</span></td>
+                  <td>Time · Total minutes (90 min)</td>
+                  <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
+                  <td><code>90 min</code></td>
+                  <td>Billing in minutes</td>
+                  <td><code>min</code> stripped in Numbers</td>
+                </tr>
+                <tr data-setup-row data-category="time">
+                  <td><span class="setup-table__category">Time</span></td>
+                  <td>Time · Days (8h = 1d)</td>
+                  <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
+                  <td><code>0.75 d</code></td>
+                  <td>Hours → workdays</td>
+                  <td>Overwrites hours on Numbers column</td>
+                </tr>
+                <tr data-setup-row data-category="time">
+                  <td><span class="setup-table__category">Time</span></td>
+                  <td>Time · Weeks (40h = 1w)</td>
+                  <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
+                  <td><code>1 w</code></td>
+                  <td>Hours → weeks</td>
+                  <td><code>w</code> stripped in Numbers</td>
+                </tr>
+                <tr data-setup-row data-category="contact">
+                  <td><span class="setup-table__category">Contact</span></td>
+                  <td>Contact · Phone (+prefix)</td>
+                  <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
+                  <td><code>+49 170 1234567</code></td>
+                  <td>International phones</td>
+                  <td><code>+</code> and spaces; no country guessing</td>
+                </tr>
+                <tr data-setup-row data-category="contact">
+                  <td><span class="setup-table__category">Contact</span></td>
+                  <td>Contact · Email &amp; Domain</td>
+                  <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
+                  <td><code>max@example.com</code></td>
+                  <td>CRM email cleanup</td>
+                  <td><code>@</code>, punycode, accents</td>
+                </tr>
+                <tr data-setup-row data-category="finance">
+                  <td><span class="setup-table__category">Finance</span></td>
+                  <td>Finance · IBAN</td>
+                  <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
+                  <td><code>DE89 3704 …</code></td>
+                  <td>Bank accounts</td>
+                  <td>Letters + grouping required</td>
+                </tr>
+                <tr data-setup-row data-category="address">
+                  <td><span class="setup-table__category">Address</span></td>
+                  <td>Address · Postal &amp; Country</td>
+                  <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
+                  <td><code>SW1A 1AA</code></td>
+                  <td>Address cleanup</td>
+                  <td>Letters, country codes</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="setup-empty" hidden data-setup-empty>No formatters match your search.</p>
+          <p class="setup-block__note">On Text columns, currency symbols and trailing codes are preserved (e.g. <code>$12345</code> → <code>$12.35K</code>). Time input: <code>1.5</code> = decimal hours; <code>1.30</code> = 1h 30m timesheet notation.</p>
+        </div>
+
+        <div class="setup-footer">
+          <div class="setup-footer__col">
+            <h3 class="setup-footer__title">Common mistakes</h3>
+            <ul>
+              <li><strong>Numbers column + formatted output</strong> — Currency, Percentage, Compact, or HH:MM (error or stripped result)</li>
+              <li><strong>Time · Days on a hours column</strong> — <code>6</code> hours becomes <code>0.75</code> days; use Decimal hours instead</li>
+              <li><strong>Status / Date / People column</strong> — monday blocks automation write-back</li>
+              <li><strong>Timesheet vs decimal</strong> — <code>1.30</code> means 1h 30m, not 1.3 decimal hours</li>
+              <li><strong>IBAN without structure</strong> — pure digits without IBAN format are left unchanged</li>
+            </ul>
+          </div>
+          <div class="setup-footer__col">
+            <h3 class="setup-footer__title">Behaviour &amp; limits</h3>
+            <ul>
+              <li>Clara reads and writes the <strong>same column</strong> that triggered the automation</li>
+              <li><strong>Loop protection</strong> — no API write if formatted value equals current value</li>
+              <li><strong>Errors</strong> — Clara returns HTTP 200 to monday; check the automation run log</li>
+              <li><strong>Unrecognisable input</strong> — left unchanged (cell not cleared)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="cta-title">
       <div class="container text-center">
         <h2 id="cta-title" class="section__title">Ready for clean data?</h2>
         <p class="section__lead">Install Clara on monday.com and start formatting automatically.</p>
@@ -747,5 +1125,6 @@
   <script src="/js/monday-install.js"></script>
   <script src="/js/automation-demo.js" defer></script>
   <script src="/js/example-cards.js" defer></script>
+  <script src="/js/setup-guide.js" defer></script>
 </body>
 </html>
