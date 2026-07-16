@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Quinsy Clara formats monday.com column data automatically: text, numbers, phones, emails, IBANs, postal codes, and time. 28 formatters, zero code.">
+  <meta name="description" content="Quinsy Clara formats monday.com column data automatically: text, numbers, phones, emails, banking codes, postcodes, and time. 50 formatters, zero code.">
   <title>Clara | Clean data. Automatically.</title>
   <script type="application/ld+json">
   {
@@ -53,7 +53,7 @@
             "name": "What types of data can Clara format?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Clara formats text, numbers, phone numbers, email addresses, IBANs, postal codes, and time or duration values. Each category handles real-world input variations such as mixed separators, local phone formats, and timesheet notation."
+              "text": "Clara formats text, numbers, phone numbers, email addresses, banking codes, postcodes, and time or duration values. Each category handles real-world input variations such as mixed separators, local phone formats, and timesheet notation."
             }
           },
           {
@@ -61,7 +61,7 @@
             "name": "How many format types does Clara include?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Quinsy Clara includes 28 formatters across 6 categories: Text, Numbers, Time and duration, Contact, Finance, and Address. You choose one format per automation recipe."
+              "text": "Quinsy Clara includes 50 formatters across 6 categories: Text, Numbers, Time and duration, Contact, Finance, and Address. You choose one format per automation recipe."
             }
           },
           {
@@ -69,7 +69,7 @@
             "name": "Which monday.com column types does Clara support?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Text columns support all 28 formatters and are the recommended choice. Numbers columns accept numeric output only, with suffixes like d, min, or % stripped. Status, Date, People, and other column types are not supported because monday.com does not allow write-back via automation."
+              "text": "Text columns support all 50 formatters and are the recommended choice. Numbers columns accept numeric output only, with suffixes like d, min, or % stripped. Status, Date, People, and other column types are not supported because monday.com does not allow write-back via automation."
             }
           },
           {
@@ -130,10 +130,10 @@
           },
           {
             "@type": "Question",
-            "name": "Does Clara format IBANs and postal codes?",
+            "name": "Does Clara format banking codes and postcodes?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Yes. Clara groups IBAN strings into standard blocks, for example DE89 3704 0044 0532 0130 00. The Address · Postal and Country formatter normalizes postal codes for US, UK, DE, FR, ES, and IT formats."
+              "text": "Yes. Finance formatters cover IBAN, BIC/SWIFT, US ABA routing, UK sort codes, Canadian transit, Australian BSB, Indian IFSC, and card numbers. Address formatters cover 17 postcode patterns (NNNNN, AN NAA, NNN NN, and more). You pick the target pattern from the dropdown."
             }
           },
           {
@@ -228,7 +228,7 @@
       <div class="container hero__container">
         <span class="badge hero__badge">monday.com app</span>
         <h1 id="hero-title" class="hero__title">Clean data. Automatically.</h1>
-        <p class="hero__subtitle">Clara formats and sanitises monday.com column values the moment they change. Text, numbers, phones, emails, IBANs, postal codes, and time. 28 formats, zero manual work.</p>
+        <p class="hero__subtitle">Clara formats and sanitises monday.com column values the moment they change. Text, numbers, phones, emails, banking codes, postcodes, and time. 50 formats, zero manual work.</p>
 
         <div class="hero__demo automation-demo-stage">
           <div class="automation-demo" data-automation-demo aria-label="Animated preview of monday automation setup">
@@ -426,7 +426,7 @@
             <div class="step__number" aria-hidden="true">2</div>
             <div class="step__content">
               <h3 class="step__title">Format</h3>
-              <p class="step__text">Clara applies your chosen transformer: text, number, time, phone, email, IBAN, or postal code.</p>
+              <p class="step__text">Clara applies your chosen transformer: text, number, time, phone, email, banking code, or postcode pattern.</p>
             </div>
           </div>
           <div class="step">
@@ -444,7 +444,7 @@
       <div class="container">
         <header id="features">
           <h2 id="features-title" class="section__title">Format categories</h2>
-          <p class="section__lead">28 transformers across six categories. Each handles real-world input variations.</p>
+          <p class="section__lead">50 transformers across six categories. Each handles real-world input variations.</p>
         </header>
         <div class="features">
           <div class="feature feature--text">
@@ -493,13 +493,27 @@
           <div class="feature feature--finance">
             <p class="feature__category">Finance</p>
             <ul class="feature__list">
-              <li>IBAN grouping</li>
+              <li>IBAN (modulo-97 validated)</li>
+              <li>BIC / SWIFT</li>
+              <li>US ABA routing</li>
+              <li>UK sort code</li>
+              <li>Canadian transit</li>
+              <li>Australian BSB</li>
+              <li>Indian IFSC</li>
+              <li>Card numbers (Luhn)</li>
             </ul>
           </div>
           <div class="feature feature--address">
             <p class="feature__category">Address</p>
             <ul class="feature__list">
-              <li>Postal and country codes (US, UK, DE, FR, ES, IT)</li>
+              <li>NNNNN (5-digit)</li>
+              <li>NNNN (4-digit)</li>
+              <li>NNN NN (SE-style)</li>
+              <li>NN-NNN (PL-style)</li>
+              <li>AN NAA (UK)</li>
+              <li>NNNN AA (NL)</li>
+              <li>ANA NAN (CA)</li>
+              <li>+ 10 more patterns</li>
             </ul>
           </div>
         </div>
@@ -516,7 +530,7 @@
           <div class="compat-list">
             <div class="compat-list__item">
               <span class="compat-list__status compat-list__status--supported">Supported</span>
-              <p class="compat-list__label"><strong>Text columns:</strong> all 28 formatters work. Recommended for every format type.</p>
+              <p class="compat-list__label"><strong>Text columns:</strong> all 50 formatters work. Recommended for every format type.</p>
             </div>
             <div class="compat-list__item">
               <span class="compat-list__status compat-list__status--limited">Limited</span>
@@ -536,7 +550,7 @@
         <header>
           <h2 id="pricing-title" class="section__title">Pricing</h2>
           <p class="section__lead">Simple usage-based plans. Billed through the monday.com marketplace.</p>
-          <p class="pricing__note">All plans include all 28 formatters. Limits reset each billing period.</p>
+          <p class="pricing__note">All plans include all 50 formatters. Limits reset each billing period.</p>
         </header>
 
         <div class="pricing-grid">
@@ -606,19 +620,19 @@
           <details class="faq-item">
             <summary class="faq-item__question">What types of data can Clara format?</summary>
             <div class="faq-item__answer">
-              <p>Clara formats text, numbers, phone numbers, email addresses, IBANs, postal codes, and time or duration values. Each category handles real-world input variations such as mixed separators, local phone formats, and timesheet notation.</p>
+              <p>Clara formats text, numbers, phone numbers, email addresses, banking codes, postcodes, and time or duration values. Each category handles real-world input variations such as mixed separators, local phone formats, and timesheet notation.</p>
             </div>
           </details>
           <details class="faq-item">
             <summary class="faq-item__question">How many format types does Clara include?</summary>
             <div class="faq-item__answer">
-              <p>Quinsy Clara includes 28 formatters across 6 categories: Text, Numbers, Time and duration, Contact, Finance, and Address. You choose one format per automation recipe.</p>
+              <p>Quinsy Clara includes 50 formatters across 6 categories: Text, Numbers, Time and duration, Contact, Finance, and Address. You choose one format per automation recipe.</p>
             </div>
           </details>
           <details class="faq-item">
             <summary class="faq-item__question">Which monday.com column types does Clara support?</summary>
             <div class="faq-item__answer">
-              <p>Text columns support all 28 formatters and are the recommended choice. Numbers columns accept numeric output only, with suffixes like <code>d</code>, <code>min</code>, or <code>%</code> stripped. Status, Date, People, and other column types are not supported because monday.com does not allow write-back via automation.</p>
+              <p>Text columns support all 50 formatters and are the recommended choice. Numbers columns accept numeric output only, with suffixes like <code>d</code>, <code>min</code>, or <code>%</code> stripped. Status, Date, People, and other column types are not supported because monday.com does not allow write-back via automation.</p>
             </div>
           </details>
           <details class="faq-item">
@@ -664,9 +678,9 @@
             </div>
           </details>
           <details class="faq-item">
-            <summary class="faq-item__question">Does Clara format IBANs and postal codes?</summary>
+            <summary class="faq-item__question">Does Clara format banking codes and postcodes?</summary>
             <div class="faq-item__answer">
-              <p>Yes. Clara groups IBAN strings into standard blocks, for example <code>DE89 3704 0044 0532 0130 00</code>. The Address · Postal and Country formatter normalizes postal codes for US, UK, DE, FR, ES, and IT formats.</p>
+              <p>Yes. Finance formatters cover IBAN, BIC/SWIFT, US ABA routing, UK sort codes, Canadian transit, Australian BSB, Indian IFSC, and card numbers. Address formatters cover 17 postcode patterns such as <code>NNNNN</code> (e.g. <code>28355</code>), <code>AN NAA</code> (UK), and <code>NNN NN</code> (Sweden). Pick the target pattern from the dropdown.</p>
             </div>
           </details>
           <details class="faq-item">
@@ -796,7 +810,7 @@
               <button type="button" class="setup-filter" data-setup-category="finance">Finance</button>
               <button type="button" class="setup-filter" data-setup-category="address">Address</button>
             </div>
-            <p class="setup-results" data-setup-results aria-live="polite">Showing 27 of 27 formatters</p>
+            <p class="setup-results" data-setup-results aria-live="polite">Showing 50 of 50 formatters</p>
           </div>
           <div class="setup-table-wrap setup-table-wrap--main">
             <table class="setup-table">
@@ -1016,16 +1030,200 @@
                   <td>Finance · IBAN</td>
                   <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
                   <td><code>DE89 3704 …</code></td>
-                  <td>Bank accounts</td>
-                  <td>Letters + grouping required</td>
+                  <td>International bank accounts</td>
+                  <td>Modulo-97 checksum validated</td>
+                </tr>
+                <tr data-setup-row data-category="finance">
+                  <td><span class="setup-table__category">Finance</span></td>
+                  <td>Finance · BIC</td>
+                  <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
+                  <td><code>COBADEFFXXX</code></td>
+                  <td>SWIFT/BIC identifiers</td>
+                  <td>8 or 11 characters</td>
+                </tr>
+                <tr data-setup-row data-category="finance">
+                  <td><span class="setup-table__category">Finance</span></td>
+                  <td>Finance · ABA</td>
+                  <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
+                  <td><code>021000021</code></td>
+                  <td>US routing numbers</td>
+                  <td>9 digits</td>
+                </tr>
+                <tr data-setup-row data-category="finance">
+                  <td><span class="setup-table__category">Finance</span></td>
+                  <td>Finance · Sort Code</td>
+                  <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
+                  <td><code>12-34-56</code></td>
+                  <td>UK sort codes</td>
+                  <td>6 digits, hyphenated</td>
+                </tr>
+                <tr data-setup-row data-category="finance">
+                  <td><span class="setup-table__category">Finance</span></td>
+                  <td>Finance · Transit</td>
+                  <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
+                  <td><code>12345-678</code></td>
+                  <td>Canadian transit</td>
+                  <td>8 digits</td>
+                </tr>
+                <tr data-setup-row data-category="finance">
+                  <td><span class="setup-table__category">Finance</span></td>
+                  <td>Finance · BSB</td>
+                  <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
+                  <td><code>062-000</code></td>
+                  <td>Australian BSB</td>
+                  <td>6 digits, hyphenated</td>
+                </tr>
+                <tr data-setup-row data-category="finance">
+                  <td><span class="setup-table__category">Finance</span></td>
+                  <td>Finance · IFSC</td>
+                  <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
+                  <td><code>SBIN0001234</code></td>
+                  <td>Indian IFSC</td>
+                  <td>11 characters</td>
+                </tr>
+                <tr data-setup-row data-category="finance">
+                  <td><span class="setup-table__category">Finance</span></td>
+                  <td>Finance · Card</td>
+                  <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
+                  <td><code>4111 1111 …</code></td>
+                  <td>Card numbers</td>
+                  <td>Luhn validation</td>
                 </tr>
                 <tr data-setup-row data-category="address">
                   <td><span class="setup-table__category">Address</span></td>
-                  <td>Address · Postal &amp; Country</td>
+                  <td>Address · Postal · NNNNN</td>
+                  <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
+                  <td><code>28355</code></td>
+                  <td>5-digit postcodes</td>
+                  <td>DE, FR, ES, IT, US ZIP</td>
+                </tr>
+                <tr data-setup-row data-category="address">
+                  <td><span class="setup-table__category">Address</span></td>
+                  <td>Address · Postal · NNNN</td>
+                  <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
+                  <td><code>2100</code></td>
+                  <td>4-digit postcodes</td>
+                  <td>AT, CH, BE, DK</td>
+                </tr>
+                <tr data-setup-row data-category="address">
+                  <td><span class="setup-table__category">Address</span></td>
+                  <td>Address · Postal · NNNNNN</td>
+                  <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
+                  <td><code>123456</code></td>
+                  <td>6-digit postcodes</td>
+                  <td>CN, IN, RU, RO</td>
+                </tr>
+                <tr data-setup-row data-category="address">
+                  <td><span class="setup-table__category">Address</span></td>
+                  <td>Address · Postal · NNN NNN</td>
+                  <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
+                  <td><code>123 456</code></td>
+                  <td>6-digit spaced</td>
+                  <td>CZ, SK</td>
+                </tr>
+                <tr data-setup-row data-category="address">
+                  <td><span class="setup-table__category">Address</span></td>
+                  <td>Address · Postal · NNNNN-NNNN</td>
+                  <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
+                  <td><code>90210-1234</code></td>
+                  <td>US ZIP+4</td>
+                  <td>9 digits</td>
+                </tr>
+                <tr data-setup-row data-category="address">
+                  <td><span class="setup-table__category">Address</span></td>
+                  <td>Address · Postal · AN NAA</td>
                   <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
                   <td><code>SW1A 1AA</code></td>
-                  <td>Address cleanup</td>
-                  <td>Letters, country codes</td>
+                  <td>UK postcodes</td>
+                  <td>Alphanumeric</td>
+                </tr>
+                <tr data-setup-row data-category="address">
+                  <td><span class="setup-table__category">Address</span></td>
+                  <td>Address · Postal · NNNN AA</td>
+                  <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
+                  <td><code>1234 AB</code></td>
+                  <td>Netherlands</td>
+                  <td>4 digits + 2 letters</td>
+                </tr>
+                <tr data-setup-row data-category="address">
+                  <td><span class="setup-table__category">Address</span></td>
+                  <td>Address · Postal · ANA NAN</td>
+                  <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
+                  <td><code>K1A 0B1</code></td>
+                  <td>Canada</td>
+                  <td>Alphanumeric</td>
+                </tr>
+                <tr data-setup-row data-category="address">
+                  <td><span class="setup-table__category">Address</span></td>
+                  <td>Address · Postal · NNN</td>
+                  <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
+                  <td><code>101</code></td>
+                  <td>3-digit postcodes</td>
+                  <td>IS, MG</td>
+                </tr>
+                <tr data-setup-row data-category="address">
+                  <td><span class="setup-table__category">Address</span></td>
+                  <td>Address · Postal · NNNNNNN</td>
+                  <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
+                  <td><code>1234567</code></td>
+                  <td>7-digit postcodes</td>
+                  <td>JP, IL</td>
+                </tr>
+                <tr data-setup-row data-category="address">
+                  <td><span class="setup-table__category">Address</span></td>
+                  <td>Address · Postal · NNN NN</td>
+                  <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
+                  <td><code>123 45</code></td>
+                  <td>Sweden</td>
+                  <td>5-digit spaced</td>
+                </tr>
+                <tr data-setup-row data-category="address">
+                  <td><span class="setup-table__category">Address</span></td>
+                  <td>Address · Postal · NN-NNN</td>
+                  <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
+                  <td><code>00-001</code></td>
+                  <td>Poland</td>
+                  <td>5-digit hyphenated</td>
+                </tr>
+                <tr data-setup-row data-category="address">
+                  <td><span class="setup-table__category">Address</span></td>
+                  <td>Address · Postal · NNN-NNNN</td>
+                  <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
+                  <td><code>123-4567</code></td>
+                  <td>Japan (alt)</td>
+                  <td>7-digit hyphenated</td>
+                </tr>
+                <tr data-setup-row data-category="address">
+                  <td><span class="setup-table__category">Address</span></td>
+                  <td>Address · Postal · A-NNNN</td>
+                  <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
+                  <td><code>L-1234</code></td>
+                  <td>Luxembourg</td>
+                  <td>Letter + 4 digits</td>
+                </tr>
+                <tr data-setup-row data-category="address">
+                  <td><span class="setup-table__category">Address</span></td>
+                  <td>Address · Postal · AA NNNN</td>
+                  <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
+                  <td><code>HN 1234</code></td>
+                  <td>Honduras</td>
+                  <td>2 letters + 4 digits</td>
+                </tr>
+                <tr data-setup-row data-category="address">
+                  <td><span class="setup-table__category">Address</span></td>
+                  <td>Address · Postal · AA-NNNNN</td>
+                  <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
+                  <td><code>LT-12345</code></td>
+                  <td>Lithuania, Croatia</td>
+                  <td>2 letters + 5 digits</td>
+                </tr>
+                <tr data-setup-row data-category="address">
+                  <td><span class="setup-table__category">Address</span></td>
+                  <td>Address · Postal · ANNNN</td>
+                  <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
+                  <td><code>C1425</code></td>
+                  <td>Argentina</td>
+                  <td>Letter + 4 digits</td>
                 </tr>
               </tbody>
             </table>
@@ -1087,7 +1285,7 @@
               <li><strong>Time · Days on a hours column:</strong> <code>6</code> hours becomes <code>0.75</code> days; use Decimal hours instead</li>
               <li><strong>Status / Date / People column:</strong> monday blocks automation write-back</li>
               <li><strong>Timesheet vs decimal:</strong> <code>1.30</code> means 1h 30m, not 1.3 decimal hours</li>
-              <li><strong>IBAN without structure:</strong> pure digits without IBAN format are left unchanged</li>
+              <li><strong>Finance / Address patterns:</strong> pick the target pattern (e.g. IBAN, NNNNN); invalid input is left unchanged</li>
             </ul>
           </div>
           <div class="setup-footer__col">
