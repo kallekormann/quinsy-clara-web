@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Security information for Quinsy Clara, a monday.com data formatting app.">
+  <title>Security | Clara</title>
+  <link rel="stylesheet" href="/shared/css/fonts.css">
+  <link rel="stylesheet" href="/shared/css/base.css">
+  <link rel="stylesheet" href="/shared/css/components.css">
+  <link rel="stylesheet" href="/shared/css/wordmark.css">
+  <link rel="stylesheet" href="/css/tokens.css">
+</head>
+<body>
+  <header class="site-header" role="banner">
+    <div class="container site-header__inner">
+      <a href="/" class="wordmark wordmark--clara" aria-label="Clara home">
+        <span class="wordmark__serif">Quinsy</span>
+        <span class="wordmark__sans">Clara</span>
+      </a>
+      <div class="site-header__cta">
+        <a href="/" class="btn btn--secondary">Back to home</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="legal" role="main">
+    <h1>Security</h1>
+    <p><strong>Last updated:</strong> July 16, 2026</p>
+    <p>These security practices apply to Clara at <strong>clara.quinsy.app</strong> and the Clara monday.com automation app. They do not govern other Quinsy websites.</p>
+
+    <h2>Transport and hosting</h2>
+    <p>Clara is served over HTTPS. Our website and API are hosted on Vercel infrastructure. Traffic between your browser and our endpoints is encrypted in transit using TLS.</p>
+
+    <h2>Authentication and access</h2>
+    <p>Clara integrates with monday.com through monday's app and automation platform. Automation runs are initiated by monday.com on your behalf when your configured triggers fire. API access uses short-lived tokens provided by monday during each run. We do not store your monday.com password.</p>
+
+    <h2>Data handling</h2>
+    <p>Cell values are processed in real time during each automation run to apply your selected formatter. We do not persistently store board cell content in our application database. See our <a href="/privacy/">Privacy Policy</a> for details on what we process and retain.</p>
+
+    <h2>Rate limits and abuse prevention</h2>
+    <p>We apply rate limits and technical controls to protect the service from abuse, overload, and unauthorised use. Plan limits on transformations are enforced as described in our <a href="/terms/">Terms of Use</a>.</p>
+
+    <h2>Logging</h2>
+    <p>We maintain server logs for operations, security monitoring, and troubleshooting. Logs may contain request metadata such as timestamps, IP addresses, and error codes. They do not include a durable copy of your board cell content.</p>
+
+    <h2>Incident reporting</h2>
+    <p>If you believe you have discovered a security vulnerability or incident affecting Clara, contact us at <a href="mailto:privacy@quinsy.app">privacy@quinsy.app</a>. Please include enough detail for us to investigate and respond.</p>
+
+    <h2>Contact</h2>
+    <p>Quinsy UG (haftungsbeschränkt)<br>
+    Schönhausenstraße 41, 28355 Bremen, Germany<br>
+    <a href="mailto:privacy@quinsy.app">privacy@quinsy.app</a> · <a href="mailto:contact@quinsy.app">contact@quinsy.app</a> · <a href="mailto:support@quinsy.app">support@quinsy.app</a></p>
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="container site-footer__inner">
+      <nav class="site-footer__links" aria-label="Footer navigation">
+        <a href="/privacy/" class="site-footer__link">Privacy</a>
+        <a href="/security/" class="site-footer__link" aria-current="page">Security</a>
+        <a href="/terms/" class="site-footer__link">Terms</a>
+        <a href="/imprint/" class="site-footer__link">Imprint</a>
+      </nav>
+      <div class="site-footer__divider" aria-hidden="true"></div>
+      <p class="site-footer__attribution">
+        A product by
+        <a href="https://quinsy.app" class="wordmark wordmark--footer" target="_blank" rel="noopener noreferrer">
+          <span class="wordmark__serif">Quinsy</span>
+        </a>
+        <span aria-hidden="true">·</span>
+        © 2026 Quinsy
+      </p>
+    </div>
+  </footer>
+</body>
+</html>
