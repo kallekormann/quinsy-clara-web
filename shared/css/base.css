@@ -66,6 +66,18 @@ header[id] {
   background-color: var(--color-surface-alt);
 }
 
+.section--cta {
+  background-color: var(--color-ink);
+}
+
+.section--cta .section__title {
+  color: var(--color-on-primary);
+}
+
+.section--cta .section__lead {
+  color: rgba(255, 255, 255, 0.84);
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;

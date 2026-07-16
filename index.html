@@ -722,23 +722,6 @@
           <p class="section__lead">Choose the right column type on your board first, then add the automation. <a href="#compatibility">Column compatibility overview</a></p>
         </header>
 
-        <div class="setup-callouts">
-          <div class="setup-callout setup-callout--compact">
-            <p class="setup-callout__title">Numbers columns store only the numeric part</p>
-            <p>Clara detects Numbers columns automatically (<code>columnId</code> starts with <code>numeric_</code>).</p>
-            <ul>
-              <li><code>0.75 d</code> → <code>0.75</code></li>
-              <li><code>90 min</code> → <code>90</code></li>
-              <li><code>01:30</code> → error (no column update)</li>
-              <li><code>$1,234.56</code> / <code>1.5M</code> → clear error instead of a broken value</li>
-            </ul>
-          </div>
-          <div class="setup-callout setup-callout--compact setup-callout--warning">
-            <p class="setup-callout__title">Time · Days on a hours column</p>
-            <p><strong>Time · Days</strong> on a Numbers column that stores <strong>hours</strong> overwrites hours with days (e.g. <code>6</code> → <code>0.75</code>). Use <strong>Time · Decimal hours</strong> if the column should stay in hours.</p>
-          </div>
-        </div>
-
         <div class="setup-tabs" data-setup-tabs>
           <div class="setup-tabs__bar" role="tablist" aria-label="Setup guide sections">
             <button type="button" class="setup-tab is-active" role="tab" id="setup-tab-automation" aria-selected="true" aria-controls="setup-panel-automation" data-setup-tab="automation">Board and automation setup</button>
@@ -751,7 +734,7 @@
                 <span class="setup-step-card__number" aria-hidden="true">1</span>
                 <div class="setup-step-card__content">
                   <h3 class="setup-step-card__title">Create the column on your board</h3>
-                  <p>Choose <strong>Text</strong>, <strong>Long text</strong>, or <strong>Numbers</strong> based on the formatter you plan to use. Pick the column type for the formatted result — not for how the input looks today.</p>
+                  <p>Choose <strong>Text</strong>, <strong>Long text</strong>, or <strong>Numbers</strong> based on the formatter you plan to use. Pick the column type for the formatted result, not for how the input looks today.</p>
                 </div>
               </article>
               <article class="setup-step-card">
@@ -954,7 +937,7 @@
                   <td><span class="compat-list__status compat-list__status--supported">Text</span></td>
                   <td><code>01:30</code></td>
                   <td>Clock display</td>
-                  <td>Colon — Numbers returns error</td>
+                  <td>Colon notation. Numbers column returns error</td>
                 </tr>
                 <tr data-setup-row data-category="time">
                   <td><span class="setup-table__category">Time</span></td>
@@ -1054,7 +1037,7 @@
 
         <div class="setup-block">
           <h3 class="setup-block__title">Column types on monday.com</h3>
-          <p class="setup-block__lead">Create the column on your board before you add the automation. Pick the column type based on what the formatted result needs to look like — not based on what the input looks like today.</p>
+          <p class="setup-block__lead">Create the column on your board before you add the automation. Pick the column type based on what the formatted result needs to look like, not based on what the input looks like today.</p>
           <div class="setup-table-wrap">
             <table class="setup-table setup-table--compact">
               <thead>
@@ -1100,27 +1083,27 @@
           <div class="setup-footer__col">
             <h3 class="setup-footer__title">Common mistakes</h3>
             <ul>
-              <li><strong>Numbers column + formatted output</strong> — Currency, Percentage, Compact, or HH:MM (error or stripped result)</li>
-              <li><strong>Time · Days on a hours column</strong> — <code>6</code> hours becomes <code>0.75</code> days; use Decimal hours instead</li>
-              <li><strong>Status / Date / People column</strong> — monday blocks automation write-back</li>
-              <li><strong>Timesheet vs decimal</strong> — <code>1.30</code> means 1h 30m, not 1.3 decimal hours</li>
-              <li><strong>IBAN without structure</strong> — pure digits without IBAN format are left unchanged</li>
+              <li><strong>Numbers column + formatted output:</strong> Currency, Percentage, Compact, or HH:MM (error or stripped result)</li>
+              <li><strong>Time · Days on a hours column:</strong> <code>6</code> hours becomes <code>0.75</code> days; use Decimal hours instead</li>
+              <li><strong>Status / Date / People column:</strong> monday blocks automation write-back</li>
+              <li><strong>Timesheet vs decimal:</strong> <code>1.30</code> means 1h 30m, not 1.3 decimal hours</li>
+              <li><strong>IBAN without structure:</strong> pure digits without IBAN format are left unchanged</li>
             </ul>
           </div>
           <div class="setup-footer__col">
             <h3 class="setup-footer__title">Behaviour &amp; limits</h3>
             <ul>
               <li>Clara reads and writes the <strong>same column</strong> that triggered the automation</li>
-              <li><strong>Loop protection</strong> — no API write if formatted value equals current value</li>
-              <li><strong>Errors</strong> — Clara returns HTTP 200 to monday; check the automation run log</li>
-              <li><strong>Unrecognisable input</strong> — left unchanged (cell not cleared)</li>
+              <li><strong>Loop protection:</strong> no API write if formatted value equals current value</li>
+              <li><strong>Errors:</strong> Clara returns HTTP 200 to monday; check the automation run log</li>
+              <li><strong>Unrecognisable input:</strong> left unchanged (cell not cleared)</li>
             </ul>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="section" aria-labelledby="cta-title">
+    <section class="section section--cta" aria-labelledby="cta-title">
       <div class="container text-center">
         <h2 id="cta-title" class="section__title">Ready for clean data?</h2>
         <p class="section__lead">Install Clara on monday.com and start formatting automatically.</p>
