@@ -85,7 +85,7 @@
     <p>Cell data is processed in real time during each automation run and is not retained in our application database. Server logs on Vercel may temporarily contain request metadata. Log retention follows Vercel's default policies (typically up to 30 days for runtime logs).</p>
 
     <h2>Usage and billing</h2>
-    <p>Clara tracks how many automation transformations you use through monday.com's app subscription API. We do not maintain a separate usage database or store cell content for metering. Usage limits depend on your monday marketplace plan. Payment and invoicing are handled by monday.com.</p>
+    <p>Clara tracks how many automation transformations you use through monday.com's <code>app_subscription_operations</code> API (operation kind: <code>transform</code>). monday.com hosts the monthly counter; Clara enforces your plan's limit (50 / 150 / 10,000 / 25,000 per month for Free / Basic / Pro / Team) before each automation run. Each run also consumes one monday.com automation action from your account quota. We do not maintain a separate usage database or store cell content for metering. Payment and invoicing are handled by monday.com.</p>
 
     <h2>Children</h2>
     <p>Clara is a business tool for monday.com workspaces and is not directed at children under 16. We do not knowingly collect personal data from children.</p>
